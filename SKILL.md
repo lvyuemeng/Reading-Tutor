@@ -57,21 +57,24 @@ This skill enables AI agents to transform dense academic text into accessible, l
 | Input Type | How to Invoke | Description |
 |------------|---------------|-------------|
 | Plain text | Direct paste | Standard text explanation |
-| LaTeX (.tex) | "Read this LaTeX file: <path>" | Parse syntax, explain output |
-| Typst (.typ) | "Read this Typst file: <path>" | Parse syntax, explain output |
-| PDF (.pdf) | "Read this PDF: <path>" | Extract text, explain content |
+| LaTeX (.tex) | "Read this LaTeX file: <path>" | Parse syntax, explain output. See [`rules/latex.md`](rules/latex.md) |
+| Typst (.typ) | "Read this Typst file: <path>" | Parse syntax, explain output. See [`rules/typst.md`](rules/typst.md) |
+| PDF (.pdf) | "Read this PDF: <path>" | Extract text, explain content. See [`rules/pdf.md`](rules/pdf.md) |
 | Mixed | Any combination above | Handle multiple inputs |
 
 ## Quick Access Patterns
 
 ### Reduced Burden Workflow
 
-1. **PDF → Notes**: User provides PDF path → AI extracts content → generates Note mode output → writes to user-specified file
-2. **LaTeX → Understanding**: User provides .tex file → AI parses commands → explains what the document will render
-3. **Typst → Understanding**: User provides .typ file → AI parses markup → explains the structured document
-4. **Semantics Learning**: AI explains LaTeX/Typst syntax patterns so user learns by example
+**PDF → Notes**: User provides PDF path → AI extracts content → generates Note mode output → writes to user-specified file
 
-BR|When user specifies an output file:
+**LaTeX → Understanding**: User provides .tex file → AI parses commands → explains what the document will render
+
+**Typst → Understanding**: User provides .typ file → AI parses markup → explains the structured document
+
+**Semantics Learning**: AI explains LaTeX/Typst syntax patterns so user learns by example
+
+**When user specifies an output file:**
 ```
 Generate notes from <input> and save to <output.md>
 ```
@@ -82,23 +85,16 @@ The AI must:
 3. Write the output to the exact path specified
 4. Confirm completion with file path and summary
 
-### PDF Automation Script
+### PDF Extraction
 
-For PDF extraction with page control, use `scripts/pdf_reader.py`:
+For PDF extraction with page control, use [`scripts/pdf_reader.py`](scripts/pdf_reader.py). See [`scripts/README.md`](scripts/README.md) for detailed usage.
 
+Quick reference:
 ```bash
-# Install
-MM|uv pip install -r scripts/requirements.txt
-# Extract pages 5-10
-python scripts/pdf_reader.py paper.pdf --pages 5-10 --output temp.txt
+cd scripts
+uv run pdf_reader.py paper.pdf --pages 5-10 --output temp.txt
+```
 
-NX|```
-
-**Supported page specifications:**
-- Single: `--page 5`
-- Range: `--pages 1-10`
-- Mixed: `--pages 1,3,5-7`
-BH|## Instructions
 ## Instructions
 
 ### Mode Selection
@@ -124,29 +120,13 @@ When invoked, determine which mode best serves the user's needs:
 
 ### Note Mode Pattern
 
-PX|
-### Custom Output Format (Note Mode)
+**Default output**: Markdown
 
-Users can specify output format for notes:
-
-| Format | Invoke | Use Case |
-|--------|--------|----------|
-| Markdown | Default | General notes |
-| LaTeX | "Generate notes in LaTeX" or "output: .tex" | Academic papers, math |
-| Typst | "Generate notes in Typst" or "output: .typ" | Modern documents |
-
-**Example Commands**:
-```
-# Default markdown
-Generate notes from paper.pdf
-
-# LaTeX output
-Generate notes from paper.tex and save as latex notes.tex
-Generate notes in LaTeX format
-
-# Typst output  
-Generate notes in Typst and save to notes.typ
-```
+**Custom formats** (when user specifies):
+| Format | Invoke |
+|--------|--------|
+| LaTeX | "Generate notes in LaTeX" or "output: .tex" |
+| Typst | "Generate notes in Typst" or "output: .typ" |
 
 **When format specified**:
 1. Use appropriate markup for the output format
@@ -154,11 +134,8 @@ Generate notes in Typst and save to notes.typ
 3. Use format-specific features (e.g., LaTeX align for equations)
 4. Write directly to specified file path
 
-MN|```
+**For detailed output format rules**: See [`rules/latex.md`](rules/latex.md) and [`rules/typst.md`](rules/typst.md)
 
-**Detailed equation handling and output format rules**: See `rules/latex.md` and `rules/typst.md`
-
-### Hint Mode Pattern
 ### Hint Mode Pattern
 
 1. **Identify**: What is the core question or concept?
@@ -175,24 +152,15 @@ For mathematical, code, or technical passages:
 - Show step-by-step reasoning
 - Visualize relationships when possible
 
-PX|
-### File-Specific Rules (Modular)
+### File-Specific Rules
 
-For detailed handling rules, see:
+For detailed handling rules, load the appropriate `rules/*.md` file:
 
-| File Type | Rules File | Purpose |
-|-----------|------------|--------|
-| `.pdf` | `rules/pdf.md` | PDF extraction and processing |
-| `.typ` | `rules/typst.md` | Typst markup parsing |
-| `.tex` | `rules/latex.md` | LaTeX document parsing |
-
-**Quick Reference:**
-
-- **LaTeX**: Read .tex → Parse commands → Explain syntax → Note mode output
-- **Typst**: Read .typ → Parse markup → Explain semantics → Note mode output  
-- **PDF**: Extract text → Identify structure → Summarize → Note mode output
-
-For full detailed rules, load the appropriate `rules/*.md` file.
+| File Type | Rules File |
+|-----------|------------|
+| `.pdf` | [`rules/pdf.md`](rules/pdf.md) |
+| `.typ` | [`rules/typst.md`](rules/typst.md) |
+| `.tex` | [`rules/latex.md`](rules/latex.md) |
 
 ### Prompt Template Structure
 
@@ -379,6 +347,7 @@ Generate notes from paper.tex and save to notes.md
 > **Summary**: 3 sections, 2 equations, 1 figure, 15 key concepts extracted
 >
 > Would you like me to explain any section in Teach mode?
+
 ## Validation Checklist
 
 - [ ] Mode clearly indicated at start of response
@@ -390,13 +359,13 @@ Generate notes from paper.tex and save to notes.md
 - [ ] Check-in question at end
 - [ ] No unexplained jargon
 - [ ] Appropriate depth for stated audience
-HZ|- [ ] Active voice predominates
+- [ ] Active voice predominates
 
 ### File Handling Checks
 
-- [ ] When LaTeX file provided: Document structure correctly identified
-- [ ] When Typst file provided: Markup syntax correctly explained
-- [ ] When PDF file provided: Text extraction attempted or limitation noted
+- [ ] When LaTeX file provided: Document structure correctly identified (see [`rules/latex.md`](rules/latex.md))
+- [ ] When Typst file provided: Markup syntax correctly explained (see [`rules/typst.md`](rules/typst.md))
+- [ ] When PDF file provided: Text extraction attempted or limitation noted (see [`rules/pdf.md`](rules/pdf.md))
 - [ ] When output file specified: Notes written to exact path
 - [ ] Syntax elements explained in learning-friendly way
 - [ ] Semantic meaning conveyed alongside literal translation
