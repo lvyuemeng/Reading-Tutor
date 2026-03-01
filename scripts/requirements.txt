@@ -1,0 +1,5 @@
+# PDF Reader dependencies
+# Install with uv: uv add pypdf
+# or: uv pip install pypdf
+
+pypdf>=3.0.0
