@@ -1,6 +1,6 @@
 # PDF Reader Script Usage Guide
 
-BP|## Quick Install
+## Quick Install
 
 ### Install uv (Choose Your OS)
 
@@ -27,34 +27,48 @@ pip install uv
 uv --version
 ```
 
-**Install dependencies**
+**Install dependencies (with virtual environment)**
 ```bash
 cd scripts
-uv pip install -r requirements.txt
+uv venv
+uv pip install pypdf
+# Or: uv pip install -r requirements.txt
 ```
 ## Basic Usage
 
 ```bash
-# Extract all pages
-python pdf_reader.py paper.pdf
+# Extract all pages (using uv run)
+uv run pdf_reader.py paper.pdf
+
+# If the script is in a different directory
+uv run /path/to/pdf_reader.py /path/to/paper.pdf
+
+# Using uv with arguments
+uv run pdf_reader.py paper.pdf --page 5
+
+# On Windows (PowerShell)
+uv run .\pdf_reader.py .\paper.pdf
 
 # Extract single page
-python pdf_reader.py paper.pdf --page 5
+uv run pdf_reader.py paper.pdf --page 5
 
 # Extract page range
-python pdf_reader.py paper.pdf --pages 1-10
+uv run pdf_reader.py paper.pdf --pages 1-10
 
 # Extract specific pages
-python pdf_reader.py paper.pdf --pages 1,3,5,7
+uv run pdf_reader.py paper.pdf --pages 1,3,5,7
 
 # Extract mixed range
-python pdf_reader.py paper.pdf --pages 1-3,5,8-10
+uv run pdf_reader.py paper.pdf --pages 1-3,5,8-10
 
 # Save to file
-python pdf_reader.py paper.pdf --output notes.txt
+uv run pdf_reader.py paper.pdf --output extracted_text.txt
 
 # Verbose mode
-python pdf_reader.py paper.pdf --pages 1-5 --verbose
+uv run pdf_reader.py paper.pdf --pages 1-5 --verbose
+
+# Help
+uv run pdf_reader.py --help
 ```
 
 ## Using with Reading Tutor Skill
@@ -92,7 +106,7 @@ The script extracts plain text. Headers, footers, and complex formatting may not
 
 | Error | Solution |
 |-------|----------|
-QY|| "pypdf not installed" | Run `uv pip install pypdf` |
+| "pypdf not installed" | Run `uv pip install pypdf` |
 
 ## Programmatic Usage
 
