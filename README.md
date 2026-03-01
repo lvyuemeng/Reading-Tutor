@@ -5,7 +5,7 @@ An AI skill for explaining academic text, LaTeX, and Typst documents with three 
 ## Features
 
 - **Teach Mode**: Comprehensive, step-by-step explanations with examples
-- **Note Mode**: Concise bullet-point summaries
+- **Note Mode**: Concise bullet-point summaries and writer of latex/typst.
 - **Hint Mode**: Socratic questioning for guided discovery
 
 ## Supported Input Types
@@ -31,56 +31,27 @@ cd scripts
 uv pip install -r requirements.txt
 ```
 
+### Install Skill
+
+```bash
+npx skills add lvyuemeng/Reading-Tutor
+bunx skills add lvyuemeng/Reading-Tutor
+```
+
+Or clone the repo:
+
+```bash
+git clone https://github.com/lvyuemeng/Reading-Tutor.git
+```
+
+Into the path of skill of agent tool you expected.
+
 ### Use with AI Agent
 
 1. Load the skill (SKILL.md) into your AI agent
 2. Provide input: text, file path, or PDF
 3. Specify mode (teach/note/hint) if desired
 4. Optionally specify output file
-
-### Example Commands
-
-WT|
-# Generate notes in LaTeX format
-Generate notes from paper.tex and save as notes.tex
-Generate notes in LaTeX
-
-# Generate notes in Typst format
-Generate notes in Typst and save to notes.typ
-```
-
-## Project Structure
-
-```
-tutor/
-├── SKILL.md           # Main skill definition
-├── LICENSE            # MIT License
-├── README.md          # This file
-├── rules/
-│   ├── pdf.md        # PDF handling rules
-│   ├── typst.md      # Typst handling rules
-│   └── latex.md      # LaTeX handling rules
-└── scripts/
-    ├── pdf_reader.py # PDF extraction script
-    ├── requirements.txt
-    └── README.md     # Script usage guide
-```
-
-## PDF Script Usage
-
-```bash
-# Extract all pages
-python scripts/pdf_reader.py paper.pdf
-
-# Extract single page
-python scripts/pdf_reader.py paper.pdf --page 5
-
-# Extract page range
-python scripts/pdf_reader.py paper.pdf --pages 1-10
-
-# Save to file
-python scripts/pdf_reader.py paper.pdf --output notes.txt
-```
 
 ## License
 

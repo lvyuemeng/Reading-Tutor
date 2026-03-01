@@ -1,3 +1,4 @@
+---
 name: Reading Tutor
 version: 1.1.0
 description: Explains academic text, LaTeX, and Typst files with three modes. Auto-generates notes to user-specified files, reduces PDF/syntax learning burden.
